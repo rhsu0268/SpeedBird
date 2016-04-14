@@ -60,7 +60,7 @@ else:
 			path.append(distance)
 			path.append(arrivalAirportCode)
 			paths.append(path)
-			print (path)
+		print (path)
 		# reset path list
 		path = []
 	#print(paths)
