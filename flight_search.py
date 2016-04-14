@@ -1,7 +1,7 @@
 import requests
 import json
 
-resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=JFK&arrivalAirport=SFO&departureDate=2016-04-22&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
+resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=CLT&arrivalAirport=JFK&departureDate=2016-04-22&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
 
 # url = 'http://terminal2.expedia.com:80/x/flights/overview/get'
 
@@ -43,7 +43,7 @@ else:
 		#print(leg)
 		leg_string = str(leg)
 		#print(item_string)
-		data_file.write(leg_string + '\n')
+		#data_file.write(leg_string + '\n')
 
 		segments = leg['segments']
 		counter = 0
@@ -61,6 +61,8 @@ else:
 			path.append(arrivalAirportCode)
 			paths.append(path)
 		print (path)
+		# write the path to the file
+		data_file.write("%s\n" % path)
 		# reset path list
 		path = []
 	#print(paths)
