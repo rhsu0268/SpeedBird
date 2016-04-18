@@ -1,7 +1,7 @@
 import requests
 import json
 
-resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=CLT&arrivalAirport=JFK&departureDate=2016-04-22&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
+resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=SFO&arrivalAirport=JFK&departureDate=2016-04-22&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
 
 # url = 'http://terminal2.expedia.com:80/x/flights/overview/get'
 
