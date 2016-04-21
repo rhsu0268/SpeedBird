@@ -5,17 +5,26 @@
 
 graph = {
 	
-	'A': [['B', 10], ['C', 270]],
+	'A': [['B', 10], ['C', 50]],
 	'B': [['A', 10], ['C', 20]],
-	'C': [['A', 270], ['B', 20], ['D', 420]],
+	'C': [['A', 50], ['B', 20], ['D', 420]],
 	'D': [['C', 420], ['E', 125]],
 	'E': [['D', 125]]
 }
 
 
+straight_line_distance_from_A_to_D = {
+	
+	'A': 460,
+	'B': 420,
+	'C': 420,
+	'D': 0,
+	'E': 125
+}
 
 
-def uniform_cost_search(graph, start, goal):
+
+def A_star_search(graph, start, goal):
 	node = start
 
 	# initialize the cost
@@ -50,12 +59,20 @@ def uniform_cost_search(graph, start, goal):
 		# choose the lowest cost node from the frontier
 		if len(frontier_node_costs) != 0:
 
-			first_cost = frontier_node_costs[0]
+			first_cost = frontier_node_costs[0] + straight_line_distance_from_A_to_D[frontier[0]]
+			print(first_cost)
 			index = 0
 			loop_counter = 0
+
+			heuristic_cost = 0
+
+			# need to calculate f(n) from cost and estimated cost to goal
+
 			for cost in frontier_node_costs[1:len(frontier_node_costs)]:
-				print(cost)
-				if (cost < first_cost):
+				heuristic_cost = cost + straight_line_distance_from_A_to_D[frontier[index]]
+				#print(straight_line_distance_from_A_to_D[frontier[index]])
+				print(heuristic_cost)
+				if (heuristic_cost < first_cost):
 					index = loop_counter
 				loop_counter += 1
 		
@@ -80,12 +97,14 @@ def uniform_cost_search(graph, start, goal):
 			print("--- ---")
 
 			#if neighbor is goal, then we have reached it
+			# we eliminate the case of moving further wehn we are done
 			if neighbor[0] == goal:
 				print("You reached the goal!")
 				visited.append(neighbor[0])
 				return visited
 
 			# check that it is not in the visited
+			# this prevents us from considering a node that we have already visited
 			if neighbor[0] not in visited:
 				# if this is the first iteration, add the node to the frontier
 				if neighbor[0] not in frontier:
@@ -102,5 +121,5 @@ def uniform_cost_search(graph, start, goal):
 			# increment counter
 			#count = count + 1
 
-print(uniform_cost_search(graph, 'A', 'E'))
+print(A_star_search(graph, 'A', 'D'))
 	
