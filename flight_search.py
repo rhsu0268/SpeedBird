@@ -1,7 +1,7 @@
 import requests
 import json
 
-resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=SFO&arrivalAirport=JFK&departureDate=2016-04-22&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
+resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=JFK&arrivalAirport=SFO&departureDate=2016-05-1&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
 
 # url = 'http://terminal2.expedia.com:80/x/flights/overview/get'
 
@@ -26,13 +26,13 @@ if resp.status_code != 200:
 	raise ApiError('GET /places/ {}'.format(resp.status_code))
 else:
 
-	data_file = open('iad_jfk.txt', 'w+')
+	data_file = open('jfk_sfo.txt', 'w+')
 
 	# write the json to the file
 	data = resp.json()
 
 	legs = resp.json()
-
+	print(legs)
 	legs = legs['legs']
 
 	paths = []
