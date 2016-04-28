@@ -3,16 +3,14 @@
 
 # sample graph 
 
-
 # graph = {
 	
-# 	'A': [['B', 10], ['C', 270]],
+# 	'A': [['B', 10], ['C', 50]],
 # 	'B': [['A', 10], ['C', 20]],
-# 	'C': [['A', 270], ['B', 20], ['D', 420]],
+# 	'C': [['A', 50], ['B', 20], ['D', 420]],
 # 	'D': [['C', 420], ['E', 125]],
 # 	'E': [['D', 125]]
 # }
-
 
 graphWithDirect = {
 	
@@ -57,10 +55,39 @@ graphWithoutDirect = {
 }
 
 
+straight_line_distance_from_airport_to_SFO = {
+	
+	'JFK': 2581.21,
+	'LAX': 337.9,
+	'MSP': 1586.82,
+	'ORD': 1843.15,
+	'CLT': 2292.27,
+	'ATL': 2134.8,
+	'DFW': 1462.51,
+	'SLC': 598.54,
+	'PHX': 651.16,
+	'DTW': 2075.12,
+	'SEA': 679.36
+}
+
+average_ticket_price_from_airport_to_SFO = {
+	
+	'JFK': 334,
+	'LAX': 173,
+	'MSP': 275,
+	'ORD': 275,
+	'CLT': 422,
+	'ATL': 383,
+	'DFW': 265,
+	'SLC': 180,
+	'PHX': 255,
+	'DTW': 375,
+	'SEA': 156
+}
 
 
 
-def uniform_cost_search(graph, start, goal):
+def A_star_search(graph, start, goal):
 	node = start
 
 	# initialize the cost
@@ -95,16 +122,41 @@ def uniform_cost_search(graph, start, goal):
 		# choose the lowest cost node from the frontier
 		if len(frontier_node_costs) != 0:
 
-			first_cost = frontier_node_costs[0]
-			index = 0
-			loop_counter = 0
+			first_cost = frontier_node_costs[0] + straight_line_distance_from_airport_to_SFO[frontier[0]] + average_ticket_price_from_airport_to_SFO[frontier[0]]
+			print("--- Stright Line Distance  ---")
+			print(straight_line_distance_from_airport_to_SFO[frontier[0]])
+			print("---  ---")
+			print("--- First cost ---")
+			print(first_cost)
+			print("---  ---")
+			index = 1
+			lowest_index = 0
+			lowest_cost = first_cost
+
+			heuristic_cost = 0
+
+			# need to calculate f(n) from cost and estimated cost to goal
+
 			for cost in frontier_node_costs[1:len(frontier_node_costs)]:
+				heuristic_cost = cost + straight_line_distance_from_airport_to_SFO[frontier[index]] + average_ticket_price_from_airport_to_SFO[frontier[index]]
+				#print(straight_line_distance_from_A_to_D[frontier[index]])
+				print("--- Cost ---")
 				print(cost)
-				if (cost < first_cost):
-					index = loop_counter
-				loop_counter += 1
-		
-			node = frontier.pop(index)
+				print("---  ---")
+				print("--- Straight Line Distance + Avg. Ticket Price ---")
+				print(straight_line_distance_from_airport_to_SFO[frontier[index]] + average_ticket_price_from_airport_to_SFO[frontier[index]])
+				print("---  ---")
+				print("--- Heuristic cost ---")
+				print(heuristic_cost)
+				print("---  ---")
+				if (heuristic_cost < lowest_cost):
+					lowest_index = index
+					lowest_cost = heuristic_cost
+				index += 1
+			print("--- Lowest index ---")
+			print(lowest_index)
+			print("---  ---")
+			node = frontier.pop(lowest_index)
 		else:
 			node = frontier.pop()
 
@@ -125,12 +177,14 @@ def uniform_cost_search(graph, start, goal):
 			print("--- ---")
 
 			#if neighbor is goal, then we have reached it
+			# we eliminate the case of moving further wehn we are done
 			if neighbor[0] == goal:
 				print("You reached the goal!")
 				visited.append(neighbor[0])
 				return visited
 
 			# check that it is not in the visited
+			# this prevents us from considering a node that we have already visited
 			if neighbor[0] not in visited:
 				# if this is the first iteration, add the node to the frontier
 				if neighbor[0] not in frontier:
@@ -147,5 +201,5 @@ def uniform_cost_search(graph, start, goal):
 			# increment counter
 			#count = count + 1
 
-print(uniform_cost_search(graphWithoutDirect, 'JFK', 'SFO'))
+print(A_star_search(graphWithoutDirect, 'JFK', 'SFO'))
 	

@@ -15,7 +15,7 @@
 graphWithDirect = {
 	
 	'JFK': [['SFO', 2566], ['LAX', 2458], ['MSP', 1009], ['ORD', 720], ['CLT', 545], 
-	['ATL', 762], ['DFW', 1380], ['SLC', 1970], ['PHX', 2139], ['DTW', 485], ['SEA', 679]],
+	['ATL', 762], ['DFW', 1380], ['SLC', 1970], ['PHX', 2139], ['DTW', 485], ['SEA', 2397]],
 	'SFO': [['JFK', 2566], ['LAX', 339], ['MSP', 1586], ['ORD', 1847], ['PHX', 652], 
 	['ATL', 2135], ['DFW', 1468], ['SLC', 599], ['DTW', 2083], ['SEA', 679]],
 	'LAX': [['JFK', 2458], ['SFO', 339]],
@@ -26,17 +26,17 @@ graphWithDirect = {
 	'DFW': [['JFK', 762], ['SFO', 1468]],
 	'SLC': [['JFK', 1970], ['SFO', 599]],
 	'PHX': [['JFK', 2139], ['SFO', 652], ['ORD', 1440]],
-	'DTW': [['JFK', 485], ['SFO', 2083]],
-	'SEA': [['SEA', 2397], ['SFO', 679]]
+	'DTW': [['JFK', 485], ['SFO', 2083]], 
+	'SEA': [['JFK', 2397], ['SFO', 679]]
 
 
 
 }
 
 graphWithoutDirect = {
-
+	
 	'JFK': [['LAX', 2458], ['MSP', 1009], ['ORD', 720], ['CLT', 545], 
-	['ATL', 762], ['DFW', 1380], ['SLC', 1970], ['PHX', 2139], ['DTW', 485], ['SEA', 679]],
+	['ATL', 762], ['DFW', 1380], ['SLC', 1970], ['PHX', 2139], ['DTW', 485], ['SEA', 2397]],
 	'SFO': [['LAX', 339], ['MSP', 1586], ['ORD', 1847], ['PHX', 652], 
 	['ATL', 2135], ['DFW', 1468], ['SLC', 599], ['DTW', 2083], ['SEA', 679]],
 	'LAX': [['JFK', 2458], ['SFO', 339]],
@@ -47,8 +47,10 @@ graphWithoutDirect = {
 	'DFW': [['JFK', 762], ['SFO', 1468]],
 	'SLC': [['JFK', 1970], ['SFO', 599]],
 	'PHX': [['JFK', 2139], ['SFO', 652], ['ORD', 1440]],
-	'DTW': [['JFK', 485], ['SFO', 2083]],
-	'SEA': [['SEA', 2397], ['SFO', 679]]
+	'DTW': [['JFK', 485], ['SFO', 2083]], 
+	'SEA': [['JFK', 2397], ['SFO', 679]]
+
+
 
 }
 
@@ -66,6 +68,21 @@ straight_line_distance_from_airport_to_SFO = {
 	'PHX': 651.16,
 	'DTW': 2075.12,
 	'SEA': 679.36
+}
+
+average_ticket_price_from_airport_to_SFO = {
+	
+	'JFK': 334,
+	'LAX': 173,
+	'MSP': 275,
+	'ORD': 275,
+	'CLT': 422,
+	'ATL': 383,
+	'DFW': 265,
+	'SLC': 180,
+	'PHX': 255,
+	'DTW': 375,
+	'SEA': 156
 }
 
 
@@ -105,34 +122,41 @@ def A_star_search(graph, start, goal):
 		# choose the lowest cost node from the frontier
 		if len(frontier_node_costs) != 0:
 
-			first_cost = frontier_node_costs[0] + straight_line_distance_from_airport_to_SFO[frontier[0]]
+			first_cost = frontier_node_costs[0] + straight_line_distance_from_airport_to_SFO[frontier[0]] 
+			print("--- Stright Line Distance  ---")
+			print(straight_line_distance_from_airport_to_SFO[frontier[0]])
+			print("---  ---")
 			print("--- First cost ---")
 			print(first_cost)
 			print("---  ---")
 			index = 1
-			loop_counter = 0
+			lowest_index = 0
+			lowest_cost = first_cost
 
 			heuristic_cost = 0
 
 			# need to calculate f(n) from cost and estimated cost to goal
 
 			for cost in frontier_node_costs[1:len(frontier_node_costs)]:
-				heuristic_cost = cost + straight_line_distance_from_airport_to_SFO[frontier[index]]
+				heuristic_cost = cost + straight_line_distance_from_airport_to_SFO[frontier[index]] 
 				#print(straight_line_distance_from_A_to_D[frontier[index]])
 				print("--- Cost ---")
 				print(cost)
 				print("---  ---")
-				print("--- Straight Line Distance ---")
-				print(straight_line_distance_from_airport_to_SFO[frontier[index]])
+				print("--- Straight Line Distance + Avg. Ticket Price ---")
+				print(straight_line_distance_from_airport_to_SFO[frontier[index]]) 
 				print("---  ---")
 				print("--- Heuristic cost ---")
 				print(heuristic_cost)
 				print("---  ---")
-				if (heuristic_cost < first_cost):
-					index = loop_counter
-				loop_counter += 1
-		
-			node = frontier.pop(index)
+				if (heuristic_cost < lowest_cost):
+					lowest_index = index
+					lowest_cost = heuristic_cost
+				index += 1
+			print("--- Lowest index ---")
+			print(lowest_index)
+			print("---  ---")
+			node = frontier.pop(lowest_index)
 		else:
 			node = frontier.pop()
 
