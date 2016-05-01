@@ -26,7 +26,7 @@ if resp.status_code != 200:
 	raise ApiError('GET /places/ {}'.format(resp.status_code))
 else:
 
-	data_file = open('jfk_sfo.txt', 'w+')
+	data_file = open('jfk_sfo-5-1-16.txt', 'w+')
 
 	# write the json to the file
 	data = resp.json()

@@ -110,6 +110,9 @@ def A_star_search(graph, start, goal):
 	# initialize a queeu containing the visited nodes
 	visited = []
 
+	# keep track of the current_cost as the algorithm progresses
+	current_cost = 0
+
 	while True: 
 		
 		# reset count
@@ -133,12 +136,13 @@ def A_star_search(graph, start, goal):
 			lowest_index = 0
 			lowest_cost = first_cost
 
+
+
 			heuristic_cost = 0
 
 			# need to calculate f(n) from cost and estimated cost to goal
-
 			for cost in frontier_node_costs[1:len(frontier_node_costs)]:
-				heuristic_cost = cost + straight_line_distance_from_airport_to_SFO[frontier[index]] 
+				heuristic_cost = current_cost + cost + straight_line_distance_from_airport_to_SFO[frontier[index]] 
 				#print(straight_line_distance_from_A_to_D[frontier[index]])
 				print("--- Cost ---")
 				print(cost)
@@ -157,8 +161,17 @@ def A_star_search(graph, start, goal):
 			print(lowest_index)
 			print("---  ---")
 			node = frontier.pop(lowest_index)
+
+			# update the current cost
+			current_cost += frontier_node_costs[lowest_index]
+
+			print("--- Current Cost ---")
+			print(current_cost)
+			print("---  ---")
 		else:
 			node = frontier.pop()
+
+	
 
 		if node == goal:
 			print("You reached the goal!")
