@@ -1,7 +1,7 @@
 import requests
 import json
 
-resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=JFK&arrivalAirport=SFO&departureDate=2016-05-1&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
+resp = requests.get('http://terminal2.expedia.com/x/mflights/search?departureAirport=JFK&arrivalAirport=SFO&departureDate=2016-05-14&numberOfAdultTravelers=1&apikey=MxAMm4mA6fjaGZ8jN3oDK7BJa3FTOvWG')
 
 # url = 'http://terminal2.expedia.com:80/x/flights/overview/get'
 
@@ -26,7 +26,7 @@ if resp.status_code != 200:
 	raise ApiError('GET /places/ {}'.format(resp.status_code))
 else:
 
-	data_file = open('jfk_sfo-5-1-16.txt', 'w+')
+	data_file = open('jfk_sfo-5-14-16.txt', 'w+')
 
 	# write the json to the file
 	data = resp.json()
@@ -44,7 +44,9 @@ else:
 		leg_string = str(leg)
 		#print(item_string)
 		#data_file.write(leg_string + '\n')
-
+		print("--- Leg ---")
+		print(leg['legId'])
+		print("---")
 		segments = leg['segments']
 		counter = 0
 		#print(segments)
@@ -56,6 +58,8 @@ else:
 			departureAirportCode = segment['departureAirportCode']
 			distance = segment['distance']
 			arrivalAirportCode = segment['arrivalAirportCode']
+			#legId = segment['legId']
+			path.append(leg['legId'])
 			path.append(departureAirportCode)
 			path.append(distance)
 			path.append(arrivalAirportCode)

@@ -1,0 +1,4 @@
+['JFK', 301, 'ORF', 'ORF', 150, 'IAD', 'IAD', 2426, 'SFO']
+['JFK', 301, 'ORF', 'ORF', 150, 'IAD', 'IAD', 2426, 'SFO']
+['JFK', 301, 'ORF', 'ORF', 710, 'ORD', 'ORD', 1847, 'SFO']
+['JFK', 301, 'ORF', 'ORF', 710, 'ORD', 'ORD', 1847, 'SFO']

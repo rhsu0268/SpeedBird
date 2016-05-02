@@ -147,5 +147,7 @@ def uniform_cost_search(graph, start, goal):
 			# increment counter
 			#count = count + 1
 
+#print(uniform_cost_search(graphWithDirect, 'JFK', 'SFO'))
 print(uniform_cost_search(graphWithoutDirect, 'JFK', 'SFO'))
+
 	
